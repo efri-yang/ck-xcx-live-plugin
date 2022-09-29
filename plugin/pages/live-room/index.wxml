@@ -1,7 +1,7 @@
 <!--plugin/pages/live-room/index.wxml-->
 <text>plugin/pages/live-room/index.wxml</text>
 
-<view class="demo">
+<view class="demo flex">
  <view>1111</view>
- <view class="test1">test1</view>
+ <view class="flex flex-wrap">test1</view>
 </view>

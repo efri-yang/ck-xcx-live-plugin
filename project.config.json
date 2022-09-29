@@ -23,6 +23,7 @@
       "outputPath": ""
     },
     "useCompilerPlugins": [
+      "typescript",
       "sass"
     ]
   },
