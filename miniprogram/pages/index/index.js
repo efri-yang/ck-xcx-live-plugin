@@ -1,4 +1,4 @@
-// pages/index/index.js
+var plugin = requirePlugin("live-room");
 Page({
 
   /**
@@ -13,6 +13,11 @@ Page({
    */
   onLoad(options) {
     console.log(24*60*60*1000/6666)
+    plugin.setStorage("token",Math.random()).then(()=>{
+      wx.redirectTo({
+        url: `plugin://live-room/live-room?liveId=${options.liveId}&socialRoomId=${options.socialRoomId}`,
+      })
+    })
   },
 
   /**

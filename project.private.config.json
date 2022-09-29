@@ -7,7 +7,7 @@
         {
           "name": "",
           "pathName": "pages/index/index",
-          "query": "liveId=17691&mode=HD&isTeacher=1&isTest=1",
+          "query": "liveId=17691&socialRoomId=25539&isTest=1",
           "launchMode": "default",
           "scene": null
         }

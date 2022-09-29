@@ -1,19 +1,27 @@
 // plugin/pages/live-room/index.js
 import IM from '../../models/im';
+import utils from '../../utils/util'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    liveId:"",
+    socialRoomId:""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log("options",IM)
+    console.log("options",IM,options)
+    this.setData({
+      liveId:options.liveId,
+      socialRoomId:options.socialRoomId
+    })
+    let token = utils.getStorage("token");
+    console.log("token",token)
   },
 
   /**

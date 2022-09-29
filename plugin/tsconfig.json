@@ -24,7 +24,7 @@
   },
   "include": [
     "./**/*.ts"
-, "utils/httpRequest.js"  ],
+, "utils/httpRequest.js", "components/test/index.js", "index.js"  ],
   "exclude": [
     "node_modules"
   ]

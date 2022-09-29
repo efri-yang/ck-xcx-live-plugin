@@ -1,4 +1,4 @@
-// plugin/components/test/index.ts
+import IM from '../../models/im'
 Component({
   /**
    * 组件的属性列表
