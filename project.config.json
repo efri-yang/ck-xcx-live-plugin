@@ -1,0 +1,35 @@
+{
+  "pluginRoot": "plugin/",
+  "miniprogramRoot": "miniprogram/",
+  "appid": "wxf81b8abd881c4d82",
+  "pluginAppid": "wxf81b8abd881c4d82",
+  "compileType": "plugin",
+  "libVersion": "2.26.2",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "setting": {
+    "coverView": true,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "showShadowRootInWxmlPanel": true,
+    "packNpmRelationList": [],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useCompilerPlugins": [
+      "sass"
+    ]
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "srcMiniprogramRoot": "miniprogram/"
+}

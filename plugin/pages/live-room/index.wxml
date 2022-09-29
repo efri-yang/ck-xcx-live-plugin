@@ -1,0 +1,7 @@
+<!--plugin/pages/live-room/index.wxml-->
+<text>plugin/pages/live-room/index.wxml</text>
+
+<view class="demo">
+ <view>1111</view>
+ <view class="test1">test1</view>
+</view>

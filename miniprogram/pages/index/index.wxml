@@ -1,0 +1,2 @@
+<!--pages/index/index.wxml-->
+<navigator url="plugin://live-room/live-room">跳转到插件页面</navigator>

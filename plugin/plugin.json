@@ -1,0 +1,9 @@
+{
+  "publicComponents": {
+    
+  },
+  "pages": {
+    "live-room": "pages/live-room/index"
+  },
+  "main": "index.js"
+}
