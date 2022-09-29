@@ -1,0 +1,27 @@
+{
+  "miniprogramRoot": "miniprogram/",
+  "pluginRoot": "plugin/",
+  "compileType": "plugin",
+  "setting": {
+    "newFeature": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "appid": "wx5cd51b7fa05b0e17",
+  "projectname": "%E6%8F%92%E4%BB%B6%E7%A4%BA%E4%BE%8B",
+  "libVersion": "2.2.0",
+  "condition": {},
+  "srcMiniprogramRoot": "miniprogram/",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "simulatorPluginLibVersion": {}
+}
