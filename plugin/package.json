@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tailwindWatch":"npx tailwindcss -i ./scss/_tailwind.css -o ./scss/tailwind.scss --watch",
-    "tailwindBuild":"npx tailwindcss build -i ./scss/_tailwind.css -o ./scss/tailwind.scss"
+    "tailwindWatch": "npx tailwindcss -i ./scss/_tailwind.css -o ./scss/tailwind.scss --watch",
+    "tailwindBuild": "npx tailwindcss build -i ./scss/_tailwind.css -o ./scss/tailwind.scss"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "tailwindcss": "^3.1.8"
+  },
+  "dependencies": {
+    "tim-wx-sdk": "^2.23.1",
+    "westore": "^0.1.9"
   }
 }
