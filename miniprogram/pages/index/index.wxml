@@ -1,2 +1,13 @@
 <!--pages/index/index.wxml-->
 <navigator url="plugin://live-room/live-room">跳转到插件页面</navigator>
+<popup isShow="{{isShow2}}">22222</popup>
+<popup isShow="{{isShow1}}" isShowOverlay="{{true}}" position="bottom" class-name="popup01" bind:open="open" bind:opened="opened" bind:close="close" bind:closed="closed">11111111111
+
+  <view catchtap="show2">弹框2显示popup</view>
+</popup>
+
+
+<button catchtap="show1">弹框1显示popup</button>
+
+
+

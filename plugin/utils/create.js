@@ -28,7 +28,7 @@ export default function create(store, option) {
             store.env && initCloud(store.env)
             extendStoreMethod(store)
         }
-        getApp().globalData && (getApp().globalData.store = store)
+        // getApp().globalData && (getApp().globalData.store = store)
         //option.data = store.data
         const onLoad = option.onLoad
         walk(store.data)

@@ -1,0 +1,62 @@
+
+
+.coms-refresh-bottom {
+  text-align: center;
+  font-size: tovmin(30);
+  color: #999;
+  padding: tovmin(30) 0;
+
+  .loading-box {
+    position: relative;
+    display: inline-block;
+    line-height: tovmin(40);
+    font-size: tovmin(28);
+
+    .icon-cpic {
+      font-size: tovmin(32);
+      display: inline-block;
+      margin-right: tovmin(10);
+      vertical-align: top;
+      color: #999;
+      position: relative;
+      animation: loading 2s linear infinite;
+      -webkit-animation: loading 2s linear infinite;
+    }
+  }
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.coms-nodata {
+  text-align: center;
+  padding: tovmin(100) 0 0;
+  .pic {
+    width: tovmin(287);
+    height: tovmin(188);
+    margin: 0 auto;
+  }
+}
+
+.coms-nodata 
+
+.coms-nodata .txt {
+  text-align: center;
+  color: #999;
+  font-size: tovmin(28);
+}
+
+.coms-dataendtip {
+  padding: tovmin(26);
+  color: #999;
+  font-size: tovmin(26);
+  text-align: center;
+}

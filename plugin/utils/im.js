@@ -1,13 +1,12 @@
 import TIM from 'tim-wx-sdk';
 class IM {
-  constructor(options){
+  constructor(){
     console.log("IM-constructor")
     this.isIMLogin = false; //IM是否已经登录
     this.isIMJoinGroup = false; //是否加入群
     this.imCustomMessageStack = []; //自定义消息队列栈（未初始化就进行自定定义消息发送）
     this.imRetryCount = 0; //操作次数统计
     this.isIMReady = false; //SDK是否ready
-    this.options =options;
     this.tim = TIM.create({
       SDKAppID: 1400318135
     });
@@ -26,16 +25,17 @@ class IM {
     this.tim.on(TIM.EVENT.ERROR, this._onIMError, this);
   }
   //IM-登录
-  loginIM(params) {
+  login(params) {
+    this.options = params;
     return this.tim.login({
       userID: params.userID,
       userSig: params.userSig,
     }).then((imResponse) => {
+      console.log("IM-登录成功",params)
       this.isIMLogin = true;
       this.imRetryCount = 0;
       //重新登录（SDK不会走ready状态了）
       if (imResponse.data.repeatLogin === true) {
-        console.log("_loginIM-已经登录")
         this.isIMReady = true;
         this._joinGroup({
           groupID: this.options.groupID
@@ -44,7 +44,7 @@ class IM {
     }).catch(imError => {
       if ((imError.code == "ECONNABORTED" || imError.code == "ETIMEDOUT") && this.imRetryCount < 3) {
         this.imRetryCount++;
-        this.loginIM(params);
+        this.login(params);
       } else {
         this.imRetryCount = 0;
         wx.showToast({
@@ -54,13 +54,13 @@ class IM {
           errorType: "IM",
           errorIntro: "IM登录失败",
           errorMsg: imError,
-          imConfig: this._imConfig
+          imConfig: this.options
         })
       }
     })
   }
   //IM-登出（即时通信 IM，通常在切换帐号的时候调用，清除登录态以及内存中的所有数据。）
-  logoutIM() {
+  logout() {
     // 取消监听
     this.tim.off(TIM.EVENT.SDK_READY, this._onIMReady)
     this.tim.off(TIM.EVENT.MESSAGE_RECEIVED, this._onIMMessageReceived)
@@ -73,8 +73,9 @@ class IM {
   }
   //IM-ready
   _onIMReady(event) {
-    // console.log('IM的SDK已经READY,配置是_imConfig:', event, this._imConfig);
-    this._isIMReady = true;
+    // console.log('IM的SDK已经READY,配置是options:', event, this.options);
+    console.log("_onIMReady-xxxx",this.options);
+    this.isIMReady = true;
     this._joinGroup({
       groupID: this.options.groupID
     })
@@ -85,12 +86,12 @@ class IM {
     const messageData = event.data;
     for (let i = 0; i < messageData.length; i++) {
       const message = messageData[i];
-      if ((message.type === TIM.TYPES.MSG_CUSTOM && message.to == this._imConfig.groupID) || (message.type === TIM.TYPES.CONV_C2C && message.to == this._imConfig.userID)) {
+      if ((message.type === TIM.TYPES.MSG_CUSTOM && message.to == this.options.groupID) || (message.type === TIM.TYPES.CONV_C2C && message.to == this.options.userID)) {
         let dataContent = JSON.parse(message.payload.data);
         console.log('接受消息',dataContent);
-        if (this._imConfig.receivedCallBack) {
+        if (this.options.receivedCallBack) {
           //如果回调处理方法需要自定的情况(默认用_handlerIMMessage)
-          this._imConfig.receivedCallBack.call(dataContent)
+          this.options.receivedCallBack.call(dataContent)
         } else {
           this._handlerIMMessage(dataContent);
         }
@@ -119,7 +120,7 @@ class IM {
         log.error({
           errorType: "IM被踢",
           errorIntro: "多实例被踢",
-          imConfig: this._imConfig
+          imConfig: this.options
         })
         break;
       case TIM.TYPES.KICKED_OUT_USERSIG_EXPIRED:
@@ -138,7 +139,7 @@ class IM {
         log.error({
           errorType: "IM被踢",
           errorIntro: "签名过期被踢",
-          imConfig: this._imConfig
+          imConfig: this.options
         })
         break;
       default:
@@ -148,18 +149,20 @@ class IM {
   _onIMError() {}
   //IM-加入群聊（群是由后端建立了）
   _joinGroup(params) {
+    console.log("params",params)
     return new Promise((resolve, reject) => {
       const promise = this.tim.joinGroup({
         groupID: params.groupID + '',
         type: TIM.TYPES.GRP_AVCHATROOM //（直播群）类型的群组
       })
       promise.then((imResponse) => {
+        console.log("imResponse",imResponse.data)
         switch (imResponse.data.status) {
           case TIM.TYPES.JOIN_STATUS_WAIT_APPROVAL: // 等待管理员同意
             break
           case TIM.TYPES.JOIN_STATUS_SUCCESS: // 加群成功
           case TIM.TYPES.JOIN_STATUS_ALREADY_IN_GROUP: // 已经在群中
-            // console.log('IM加群成功_joinGroup success', imResponse);
+            console.log('IM加群成功_joinGroup success', imResponse);
             this.isIMJoinGroup = true;
             this.imRetryCount = 0;
             if (this.imCustomMessageStack.length) {
@@ -178,7 +181,7 @@ class IM {
               errorType: "IM",
               errorIntro: "IM加群-imResponse.data.status",
               errorMsg: imResponse.data.status,
-              imConfig: this._imConfig
+              imConfig: this.options
             })
             break
         }
@@ -196,7 +199,7 @@ class IM {
             errorType: "IM",
             errorIntro: "IM加群失败-_joinGroup",
             errorMsg: imError,
-            imConfig: this._imConfig
+            imConfig: this.options
           })
           reject();
         }
@@ -238,7 +241,7 @@ class IM {
   _createCustomMessage(data, userID, resolve, reject) {
     console.log("_createCustomMessage", userID)
     let message = this.tim.createCustomMessage({
-      to: userID || this._imConfig.groupID,
+      to: userID || this.options.groupID,
       conversationType: !userID ? TIM.TYPES.CONV_GROUP : TIM.TYPES.CONV_C2C,
       priority: TIM.TYPES.MSG_PRIORITY_HIGH,
       payload: {
@@ -257,7 +260,7 @@ class IM {
         this.isIMJoinGroup = false;
         console.log("还未加群");
         this._joinGroup({
-          groupID:this._imConfig.groupID
+          groupID:this.options.groupID
         }).then(() => {
           this._createCustomMessage(data, userID, resolve, reject);
         }).catch(()=>{
@@ -271,7 +274,7 @@ class IM {
             errorIntro: "自定义消息发送失败",
             sendData: data,
             errorMsg: res,
-            imConfig: this._imConfig
+            imConfig: this.options
           })
         })
       }else{
@@ -285,9 +288,9 @@ class IM {
           errorIntro: "自定义消息发送失败",
           sendData: data,
           errorMsg: res,
-          imConfig: this._imConfig
+          imConfig: this.options
         })
-        console.log("自定义发消息---失败！", res, data, this._imConfig)
+        console.log("自定义发消息---失败！", res, data, this.options)
       }
     })
   }

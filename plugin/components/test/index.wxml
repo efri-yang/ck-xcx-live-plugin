@@ -1,2 +1,7 @@
 <!--plugin/components/test/index.wxml-->
-<text>plugin/components/test/index.wxml</text>
+
+<view class="test-dialog" wx:if="{{isShow}}">
+  <view class="container">666</view>
+  <view>年龄{{userInfo.age}}</view>
+  <button catchtap="changeData">更新数据</button>
+</view>

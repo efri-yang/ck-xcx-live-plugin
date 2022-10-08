@@ -1,0 +1,78 @@
+/* components/popup/index.wxss */
+.popup-mask{
+  position: fixed;
+  left:0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(#000000,0.5);
+  animation-duration: 0.35s;
+  animation-fill-mode: both;
+}
+
+.popup{
+  position: fixed;
+  background: #fff;
+
+  animation-duration: 0.35s;
+  animation-fill-mode: both;
+  
+  &.center{
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    border-radius: 10rpx;
+  }
+  &.bottom{
+    bottom: 0;
+    left:0;
+    right: 0;
+    border-radius: 10rpx 10rpx 0 0;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

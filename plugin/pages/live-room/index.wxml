@@ -1,7 +1,201 @@
 <!--plugin/pages/live-room/index.wxml-->
+<view class="container">11111</view>
 <text>plugin/pages/live-room/index.wxml</text>
 
-<view class="demo flex">
- <view>1111</view>
- <view class="flex flex-wrap">test1</view>
+<view class="demo">
+ <view>{{liveId}}</view>
+ <view class="flex flex-wrap">{{socialRoomId}}</view>
+ <view>{{userInfo.age}}</view>
 </view>
+
+<button catchtap="changeData">改变数据</button>
+<test isShow="{{isShow}}" age="{{userInfo.age}}"></test>
+
+<!-- 聊天列表 -->
+<scroll-view class="chatlist-scroll left" id="J_chatlist-scroll" scroll-y="true"  scroll-with-animation="true" bindscrolltolower="onChatScrollToLower" bindscrolltoupper="onChatScrollToUpper">
+  <view wx:for="{{chatList}}" wx:key="index" class="chat-list  {{item.isMe ? 'chat-mine' :'chat-default'}}">
+        <!-- 文字消息 -->
+        <view class="item-cell c-flexw-wrap c-aligni-center" wx:if="{{item.msgType==1 || item.msgType==76}}">
+          <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index">
+            <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="username">{{item.dynamicName}}：</text>{{item.content}}
+        </view>
+        <!-- 图片消息 -->
+        <view class="item-cell  c-flex-row" wx:elif="{{item.msgType==2}}">
+          <view>
+            <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index" >
+              <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+            </block>
+            <text
+              class="username c-text-ellipsis1 username-maxw c-inlineblack c-vcAlign-middle">{{item.dynamicName}}</text><text
+              class="username c-inlineblack c-vcAlign-middle">：</text>
+          </view>
+          <image class="img-1" data-src="{{item.content}}" src="{{item.content}}" catchtap="onPreviewChatImg"
+            mode="aspectFit" lazy-load="true"></image>
+        </view>
+        <!-- 音频消息 -->
+        <view class="item-cell  c-fc-fffc00 {{item.isMe ? 'item-mine' :'item-default'}}" wx:elif="{{item.msgType==3}}">
+          <block wx:for="{{item.tagArr}}" wx:key="index" wx:for-item="tagObj">
+            <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="{{item.isMe ? 'minename' :'c-fc-00DEFF'}}">{{item.dynamicName}}：</text>【音频消息】请在公众号查看！
+        </view>
+        <!-- 视频消息 -->
+        <view class="item-cell  c-fc-fffc00 {{item.isMe ? 'item-mine' :'item-default'}}" wx:elif="{{item.msgType==4}}">
+          <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index">
+            <view wx:if="{{tagObj.text}}"  class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="{{item.isMe ? 'minename' :'c-fc-00DEFF'}}">{{item.dynamicName}}：</text>【视频消息】请在公众号查看！
+        </view>
+        <!-- 禁言模式 -->
+        <view class="item-cell c-flexw-wrap" wx:elif="{{item.msgType==11}}">
+          <text class="c-mr4">{{item.jiguangUserName==socialInfo.jiguangUserName ? '你': ('"'+item.dynamicName+'"')}}</text>
+          {{item.content == 2 ? '发起' : '解除'}}群禁言
+        </view>
+        <!-- 针对个人的禁言 -->
+        <view class="item-cell c-flexw-wrap" wx:elif="{{item.msgType==13}}">
+          <text
+            class="c-mr4">{{item.content.jiguangUserName==socialInfo.jiguangUserName ? '你': ('"'+item.content.userName+'"')}}</text>
+          已被禁言
+        </view>
+        <!-- 针对个人解除禁言 -->
+        <view class="item-cell c-flexw-wrap" wx:elif="{{item.msgType==14}}">
+          <text
+            class="c-mr4">{{item.content.jiguangUserName==jiguangUserName ? '你':('"'+item.content.userName+'"')}}</text>
+          已被解除禁言
+        </view>
+        <!-- 邀请进群的消息 -->
+        <view class="item-cell c-flexw-wrap" wx:elif="{{item.msgType==15}}">
+          <text class="c-pr5 {{item.isMe ? 'minename':'username'}}">{{item.inviteFrom}}</text>
+          <text class="c-fc-white c-ph8">邀请了</text>
+          <text class="c-pr5 {{item.isMe ? 'minename':'username'}}">{{item.inviteTo}}</text>
+          <text class="c-fc-white">加入直播间 </text>
+        </view>
+        <!-- 撤回消息 -->
+        <view class="item-cell c-flexw-wrap item-rescind" wx:elif="{{item.msgType==16}}">
+          <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index" >
+            <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="c-pr5 username">{{item.dynamicName}}</text> {{item.content}}
+        </view>
+        <!-- 加群消息 -->
+        <view class="item-cell c-flexw-wrap" wx:elif="{{item.msgType==17}}">
+          <text class="c-pr5 {{item.isMe ? 'minename':'username'}}">{{item.isMe ? '你' : item.dynamicName}}</text>
+          <text class="c-fc-white">加入直播间 </text>
+        </view>
+        <!-- 提问消息 -->
+        <view class="item-cell c-fc-white cell-qa c-flexw-wrap" wx:elif="{{item.msgType==18}}">
+          <block wx:for="{{item.tagArr}}" wx:for-item="tagObj"  wx:key="index">
+            <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="username">{{item.dynamicName}}：</text>
+          <text class="tag-q">问</text>
+          {{item.content}}
+        </view>
+        <!-- 回答文字消息 -->
+        <view class="item-cell c-fc-white cell-qa" wx:elif="{{item.msgType==19}}">
+          <view class="replay">
+            <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index">
+              <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+            </block>
+            <text class="c-pr5  {{item.isMe ? 'username' :'qaname'}}">{{item.dynamicName}}：</text><text
+              class="tag-a">答</text>{{item.content}}
+          </view>
+          <view class="c-flexw-wrap ask">
+            <text class="{{item.qFromMe ? 'username' :'qaname'}}">{{item.dynamicSubName}}：</text>
+            <text class="tag-q">问</text>
+            {{item.subContent}}
+          </view>
+
+        </view>
+        <!-- 回答图片 -->
+        <view class="item-cell c-fc-white cell-qa" wx:elif="{{item.msgType==20}}">
+          <view class="replay c-flex-row">
+            <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index">
+              <view wx:if="{{tagObj.text}}"  class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+            </block>
+            <text
+              class="c-text-ellipsis1 username-maxw c-inlineblack c-vcAlign-middle {{item.isMe ? 'username' :'qaname'}}">{{item.dynamicName}}</text>
+            <text class="{{item.isMe ? 'username' :'qaname'}} c-inlineblack c-vcAlign-middle">：</text>
+            <text class="tag-a">答</text>
+            <image src="{{item.content}}" data-src="{{item.content}}" catchtap="onPreviewChatImg" class="img-1"
+              mode="aspectFit" lazy-load="true"></image>
+          </view>
+          <view class="ask">
+            <text class="{{item.qFromMe ? 'username' :'qaname'}}">{{item.dynamicSubName}}：</text>
+            <text class="tag-q">问</text>
+            {{item.subContent}}
+          </view>
+        </view>
+        <!-- 打赏现金消息 -->
+        <view class="item-cell  c-flex-row c-flexw-wrap" hidden="{{!isShowReward}}" wx:elif="{{item.msgType==22}}">
+          <text class="username">{{item.dynamicName}}</text>
+          <text class="c-fc-white c-ph8">打赏了 </text>
+          <text class="c-fc-00DEFF">{{item.rewardTo}}</text>
+          <text class="c-fc-fffc00 c-ph8">{{item.rewardName}}</text>
+          <image class="img-2" src="{{item.rewardImg}}"></image>
+          <text class="c-fc-00DEFF">{{item.rewardNum}}</text>
+        </view>
+
+        <!-- 资源消息  33 34 35 36 37 -->
+        <view class="item-cell  c-fc-fffc00" wx:elif="{{item.msgType > 30 && item.msgType < 38}}">
+          <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index">
+            <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="c-fc-00DEFF">{{item.dynamicName}}：</text>【资源】{{item.content}}
+        </view>
+        <!-- 66 群公告 -->
+        <view wx:elif='{{item.msgType == 66}}' class="item-cell  c-flexw-wrap c-fc-white">
+          <text class="c-fc-00DEFF c-ph8">【系统公告】</text>{{item.content}}
+        </view>
+        <!-- 产品带货  70 带货产品 -->
+        <view class="item-cell  item-dh {{item.isMe ? 'item-mine' :'item-default'}}" wx:elif="{{item.msgType==70}}">
+          <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index">
+            <view wx:if="{{tagObj.text}}" class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="{{item.isMe ? 'minename' :'c-fc-00DEFF'}}">{{item.dynamicName}}：</text>【带货】{{item.content}}
+        </view>
+        <!-- 打赏实物 73  -->
+        <view class="item-cell c-flex-row c-flexw-wrap" hidden="{{!isShowReward}}" wx:elif="{{item.msgType==73}}">
+          <text class="c-fc-00DEFF">{{item.dynamicName}}</text>
+          <text class="c-fc-white tag-txt c-ph8">打赏了 </text>
+          <text class="c-fc-00DEFF">{{item.rewardTo}}</text>
+          <text class="c-fc-fffc00 tag-txt c-ph8">{{item.rewardName}}</text>
+          <image class="img-2 c-mh12" src="{{item.subContent}}"></image>
+          <text class="c-fc-00DEFF"> x{{item.rewardNum}}</text>
+        </view>
+        <!-- 已经购买 74  -->
+        <view class="item-cell c-fc-fffc00" hidden="{{!isShowBuyGoods}}" wx:elif="{{item.msgType==74}}">
+          <text class="c-fc-00DEFF">{{item.dynamicName}}</text>
+          <text class="c-fc-white tag-txt c-ph8">购买了 </text>
+          {{item.buyProName}}
+        </view>
+        <!-- 正在购买消息 75 -->
+        <view class="item-cell c-fc-fffc00" hidden="{{!isShowBuyGoods}}" wx:elif="{{item.msgType==75}}">
+          <text class="c-fc-00DEFF">{{item.dynamicName}}</text>
+          <text class="c-fc-white tag-txt c-ph8">正在购买 </text>
+          {{item.content}}
+        </view>
+        <!-- 老师收到红包80 -->
+        <view wx:elif="{{item.msgType==80}}" class="item-cell c-flexw-wrap c-fc-white">
+          <block wx:for="{{item.tagArr}}" wx:for-item="tagObj" wx:key="index">
+            <view wx:if="{{tagObj.text}}"  class="user-tag {{tagObj.className}}">{{tagObj.text}}</view>
+          </block>
+          <text class="{{item.isMe ? 'minename' :'c-fc-00DEFF'}}">{{item.dynamicName}}：</text>发起了一个红包
+        </view>
+        <!-- 学员收到81 -->
+        <block wx:elif="{{item.msgType == 81}}">
+          <view wx:if="{{item.isMe || item.redFromUserId==socialInfo.jiguangUserName}}"
+            class="item-cell c-flexw-wrap c-fc-white">
+            <text class="c-mr4">{{item.isMe ? '你': ('"'+ item.dynamicName +'"')}}</text>领取了
+            <text
+              class="c-ml4 c-mr4">{{(item.isMe && item.redFromUserId==socialInfo.jiguangUserName) ? '自己' :(item.redFromUserId==socialInfo.jiguangUserName ? '你': ('"'+item.redFromUserName +'"'))}}</text>发的<text
+              class="c-fc-xmlred c-ml4">红包</text>
+          </view>
+        </block>
+        <view wx:else class="item-cell c-flexw-wrap c-fc-white">
+          <text class="username c-ph8">{{item.dynamicName}}</text>{{item.content}}
+        </view>
+      </view>
+</scroll-view>

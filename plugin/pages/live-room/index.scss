@@ -6,3 +6,108 @@
     color: green;
   }
 }
+
+.container{
+  background: green;
+}
+
+.chatlist-scroll {
+  -webkit-mask: -webkit-gradient(linear, left 20%, left top, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+  height: 400px;
+  &.left{
+    position: fixed;
+    left:0;
+    top:0;
+    width: 50%;
+  }
+}
+.chat-list {
+  display: flex;
+
+  .item-cell {
+    background-color: rgba(0, 0, 0, 0.3);
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
+  .username-maxw {
+    max-width: 50px;
+  }
+
+  .user-tag {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    padding: 0 2px;
+    height: 12px;
+    line-height: 12px;
+    margin: 0 2.5px 0 0;
+    border-radius: 3px;
+    color: #fff;
+
+    // &.role-teacher{
+    //   background: linear-gradient(270deg,#3a86fd, #43befe);
+    // }
+    &.role-admin {
+      background: linear-gradient(316deg, #f45300, #ff9f5a 88%);
+    }
+
+    &.role-guest,
+    &.role-teacher {
+      background: #2194ff;
+    }
+  }
+
+  // .user-tag-img{
+  //   display: inline-flex;
+  //   vertical-align: middle;
+  //   margin:0 3px 0 0;
+  //   height: 12px;
+  //   &.tag-2{
+  //     width:24px
+  //   }
+  //   &.tag-4{
+  //     width: 30px;
+  //   }
+  // }
+
+  .img-1 {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    object-fit: contain;
+  }
+
+  .img-2 {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    object-fit: contain;
+  }
+
+  &.chat-mine {
+    color: #fff;
+  }
+
+  .username,
+  .minename {
+    color: #6CDEFF;
+  }
+
+  .qaname {
+    color: #00DEFF;
+  }
+
+  .item-dh {
+    color: #fbb449;
+  }
+
+  .item-pro {
+    color: #00DEFF;
+  }
+
+  .item-rescind {
+    color: #fff;
+  }
+}

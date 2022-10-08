@@ -1,4 +1,7 @@
 /*日期格式化*/
+import {HttpRequest,
+  get,
+  post} from "./httpRequest";
 function dtFormat(timestamp: number, format: string, obj = { isResObj: false }): (string | object) {
   const SECOND = 1 * 1000;
   const MINUTE = 1 * 60 * SECOND;
@@ -99,9 +102,43 @@ function getStorage(key: string) {
   }
 }
 
+/**
+ * @description:设置环境
+ * @val {number} 1-测试  2-formal 3-正式 
+ * @return {*}
+ */
+function setEnvConfig(val: number) {
+  let ckPluginEnvConfig = {
+    sdkAppId: 0,
+    apiUrl: ""
+  }
+  switch (val) {
+    case 1:
+      ckPluginEnvConfig.sdkAppId = 1400339505;
+      ckPluginEnvConfig.apiUrl = 'https://kpapi-cs.ckjr001.com/api/';
+      break;
+    case 2:
+      ckPluginEnvConfig.sdkAppId = 1400488765;
+      ckPluginEnvConfig.apiUrl = 'https://formalapi.ckjr001.com/api/';
+      break;
+    case 3:
+      ckPluginEnvConfig.sdkAppId = 1400488765;
+      ckPluginEnvConfig.apiUrl = 'https://kpapiop.ckjr001.com/api/';
+      break
+    default:
+      ckPluginEnvConfig.sdkAppId = 1400488765;
+      ckPluginEnvConfig.apiUrl = 'https://kpapiop.ckjr001.com/api/';
+  }
+  wx.setStorageSync('ckPluginEnvConfig', ckPluginEnvConfig);
+}
+
 export default {
   dtFormat,
   setStorage,
   removeStorage,
-  getStorage
+  getStorage,
+  setEnvConfig,
+  HttpRequest,
+  get,
+  post
 }

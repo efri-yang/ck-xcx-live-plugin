@@ -1,0 +1,19 @@
+<view class='coms-refresh-bottom' wx:if="{{status=='LOADING'}}">
+  <view class='loading-box'>
+    <view class="iconfont iconloading icon-cpic"></view>
+    玩命加载中...
+  </view>
+</view>
+<!-- 没有数据 -->
+<view class="coms-nodata class-nodata" wx:elif="{{status=='NO_DATA'}}">
+  <block wx:if="{{!isUseNoDataSlot}}">
+    <image src="https://ck-bkt-knowledge-payment.oss-cn-hangzhou.aliyuncs.com/admin/material/21_material_admin/image/assets/images/nodata1.png" class="pic"
+      mode="aspectFit"></image>
+    <view class="txt ^comp-nodata-txt ~page-nodata-txt">{{noDataText}}</view>
+  </block>
+  <slot name="nodata" wx:else></slot>
+</view>
+<!-- 数据加载完成 -->
+<view class="coms-dataendtip" wx:elif="{{status=='NO_MORE_DATA'}}">
+  {{endTipText || '我是有底线的！'}}
+</view>
