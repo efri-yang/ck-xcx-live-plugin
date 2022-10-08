@@ -1,0 +1,25 @@
+<view class="video-container">
+  <video id="J_video" autoplay controls="{{false}}" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400" bindloadedmetadata="bindloadedmetadata" bindprogress="bindprogress" bindtimeupdate="bindtimeupdate">
+<!-- https://1256159786.vod2.myqcloud.com/7cfd6414vodcq1256159786/f697ec53387702301958611836/playlist.f3.m3u8 -->
+    <view class="video-handle">
+      <view style="display: flex; height: 60rpx;">
+        <view catchtap="fullScreen">全屏</view>
+        <view catchtap="exitFullScreen">退出全屏</view>
+        <view catchtap="play">播放</view>
+        <view catchtap="pause">暂停</view>
+      </view>
+      <view class="progress-container">
+        <view class="progress-control">
+          <view class="progress-holder"></view>
+          <view class="progress-slidebar" style="width: {{videoProgressPercent}}%;"></view>
+        </view>
+        <view>{{videoCurrentTime}}/{{videoTotalTime}}</view>
+      </view>
+    </view>
+
+
+
+  </video>
+
+</view>
+<!-- src="https://live-txplay-cs.ckjr001.com/live/t-new-13_b44ad86fcf0fe5f71731883bae5b5608.m3u8" -->

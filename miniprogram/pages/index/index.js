@@ -24,6 +24,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.setData({
+      isShow1:true
+    })
+  
     // wx.setStorage({
     //   key: 'test',
     //   data: "666"
@@ -58,6 +62,9 @@ Page({
   },
   closed(){
     console.log("closed")
+  },
+  confirm(){
+    console.log('confirm')
   },
 
   /**
