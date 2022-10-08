@@ -1,5 +1,5 @@
 <view wx:if="{{isShowPopup && isShowOverlay}}" style="z-index: {{dynamicZIndex}};animation-name: {{isShow ? 'fadeIn':'fadeOut'}};{{overlayStyle}}" class="popup-mask" catchtap="overlayClick"></view>
-<view wx:if="{{isShow}}" style="z-index: {{dynamicZIndex}};" class="popup {{position}} class-name" bindanimationend="onAnimationEnd">
+<view wx:if="{{isShowPopup}}" style="z-index: {{dynamicZIndex}}; animation-name: {{transitionName}};" class="popup {{position}} class-name" bindanimationend="onAnimationEnd">
   <slot></slot>
   <button catchtap="onClose">关闭</button>
 </view>
